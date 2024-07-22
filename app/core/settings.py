@@ -28,6 +28,6 @@ class LogSettings(Base):
     По умолчанию установлено значение True.
     """
 
-    level: LOG_LEVEL = LOG_LEVEL.INFO
+    level: LOG_LEVEL = "INFO"
     guru: bool = True
     traceback: bool = True
