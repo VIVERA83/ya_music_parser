@@ -1,18 +1,16 @@
-from logging import Logger, getLogger
+from time import sleep
 
-from selenium import webdriver
+from parser.frames.basic import BasicArtistFrame
+from parser.frames.search import SearchFrame
+from parser.frames.info import ArtistInfoFrame
 
-from parser.utils import get_chrome_driver_options
 
-
-class YandexMusicParser:
-    def __init__(self, logger: Logger = None):
-        self.logger = logger or getLogger(name=__name__)
-        self.driver = webdriver.Chrome(options=get_chrome_driver_options())
-
-    def start(self):
-        """Начать парсинг."""
-
-    def stop(self):
-        """Остановить парсинг."""
-        self.driver.quit()
+class YandexMusicParser(SearchFrame, BasicArtistFrame, ArtistInfoFrame):
+    def start(self, artist_name: str):
+        data = []
+        artist_id = self.parse_search_frame(artist_name)
+        sleep(0.5)
+        data.append(self.parse_basic_artist_frame(artist_id))
+        sleep(0.5)
+        data.extend(self.parse_artist_info(artist_id))
+        self.logger.info(f"Artist: {data}")

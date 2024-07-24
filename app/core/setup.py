@@ -8,9 +8,8 @@ def run_parser():
     logger = setup_logging()
     clicker = YandexMusicParser(logger)
     try:
-        clicker.start()
+        clicker.start(input("Введите ариста, важно не полное имя (пример Киркоров): "))
     except Exception as ex:
         logger.error(f"{ex}\n{traceback.format_exc()}")
     finally:
         clicker.stop()
-
