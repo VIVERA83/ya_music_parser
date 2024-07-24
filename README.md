@@ -16,17 +16,18 @@
 
 ```json
 {
-  'name': 'Король и Шут',
-  'listeners': '5 511 883',
-  'likes': '106 898',
-  'last_release': '12 апреля 2024',
-  'vk': 'http://vk.com/korol_i_shut_ru',
-  'twitter': 'https://twitter.com/korol_i_shut',
-  'youtube': 'http://www.youtube.com/thekorolishut',
-  'website_1': 'http://www.korol-i-shut.ru/',
-  'website_2': 'https://band.link/scanner?search=41052&type=artist_id&service=yandex_music'
+  "name": "Король и Шут",
+  "listeners": "5 511 883",
+  "likes": "106 898",
+  "last_release": "12 апреля 2024",
+  "vk": "http://vk.com/korol_i_shut_ru",
+  "twitter": "https://twitter.com/korol_i_shut",
+  "youtube": "http://www.youtube.com/thekorolishut",
+  "website_1": "http://www.korol-i-shut.ru/",
+  "website_2": "https://band.link/scanner?search=41052&type=artist_id&service=yandex_music"
 }
 ```
+
 
 
 
