@@ -4,19 +4,20 @@ from logging import Logger
 from selenium.common import NoSuchElementException
 
 from parser.frames.welcome import WelcomeFrame
+from parser.types import ArtistDict
 
 
 class BasicArtistFrame(WelcomeFrame):
     def __init__(self, logger: Logger = None):
         super().__init__(logger)
 
-    def parse_basic_artist_frame(self, artist_id: str) -> dict[str, str]:
+    def parse_basic_artist_frame(self, artist_id: str) -> ArtistDict:
         self.driver.get(self.create_url(f"/artist/{artist_id}"))
         self.wait()
         self.parse_welcome_frame()
         return self._get_last_release()
 
-    def _get_last_release(self) -> dict[str, str]:
+    def _get_last_release(self) -> ArtistDict:
         try:
             css_selector = "page-artist__latest-album"
             element = self.driver.find_element(
