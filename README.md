@@ -27,7 +27,11 @@
   "website_2": "https://band.link/scanner?search=41052&type=artist_id&service=yandex_music"
 }
 ```
+### Создание exe файла
 
-
-
-
+для создания exe необходимо провести следующие манипуляции:
+1. переходим в каталог приложения `app`
+2. запускаем скрипт `python make_exe.py build`
+3. появится папка `build`
+4. переходим в неё и следующею папку там находим `ya_music_parser.exe`
+5. это и есть исполняемый файл"
