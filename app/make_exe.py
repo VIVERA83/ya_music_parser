@@ -1,49 +1,10 @@
 from cx_Freeze import setup, Executable
 
-executables = [Executable('main.py')]
-includes = [
-"annotated-types",
-"asttokens",
-"attrs",
-"black",
-"certifi",
-"click",
-"colorama",
-"cx_Freeze",
-"executing",
-"fake-useragent",
-"filelock",
-"h11",
-"icecream",
-"idna",
-"loguru",
-"mypy-extensions",
-"outcome",
-"packaging",
-"patchelf",
-"pathspec",
-"pip",
-"platformdirs",
-"pydantic",
-"pydantic_core",
-"pydantic-settings",
-"Pygments",
-"PySocks",
-"python-dotenv",
-"selenium",
-"setuptools",
-"six",
-"sniffio",
-"sortedcontainers",
-"trio",
-"trio-websocket",
-"typing_extensions",
-"urllib3",
-"websocket-client",
-"wheel",
-"wsproto",
-]
-setup(name='hello_world',
-      version='0.0.1',
-      description='My Hello World App!',
-      executables=executables)
+executables = [Executable("main.py", target_name="ya_music_parser.exe")]
+
+setup(name="Яндекс музыка 'parser'",
+      version="0.0.1",
+      description="Поиск информации о исполнителе на одноименном сервисе,"
+                  " найденная информация сохраняется в файле csv",
+      executables=executables,
+      )
