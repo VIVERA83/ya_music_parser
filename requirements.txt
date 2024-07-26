@@ -2,3 +2,4 @@ pydantic_settings==2.3.4
 selenium==4.23.0
 fake-useragent==1.5.1
 loguru==0.7.2
+cx_freeze==7.2.0
