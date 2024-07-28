@@ -74,6 +74,8 @@ class ArtistInfoFrame(WelcomeFrame):
     @staticmethod
     def __check_type_website(data_type: str, data: ArtistDict) -> str:
         """Проверка типа сайта"""
-        if data_type == "website" and not data.get("website_1"):
+        if data_type == "website":
+            if data.get("website_1"):
+                return f"{data_type}_2"
             return f"{data_type}_1"
-        return f"{data_type}_2"
+        return data_type
