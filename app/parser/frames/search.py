@@ -1,6 +1,5 @@
 from logging import Logger
 
-from icecream import ic
 from selenium.common import NoSuchElementException
 
 from parser.frames.welcome import WelcomeFrame
@@ -27,39 +26,32 @@ class SearchFrame(WelcomeFrame):
         except NoSuchElementException:
             self.logger.info("Элементы поиска не найдены")
 
-    def search_by_params(self, genre: str, type_artist: str, page: int = None) -> list[str]:
-        if page:
-            self.driver.get(self.create_url("/search", text=genre, type=type_artist, page=page))
-        else:
-            self.driver.get(self.create_url("/search", text=genre, type=type_artist))
+    def move_to_page_by_params(self, genre: str, type_artist: str, page: int):
+        self.driver.get(
+            self.create_url("/search", text=genre, type=type_artist, page=page)
+        )
         self.wait()
         self.parse_welcome_frame()
-        self._click_link_all_artists()
-        links = self._get_artists_articles()
-        print(links)
-        return [artist_id.split("/")[-1] for artist_id in links]
 
     def _get_artists_articles(self) -> list[str]:
         class_name = "artist"
         try:
-            self.driver.refresh()
-            print(self.driver.current_url)
             elements = self.driver.find_elements(
                 by=self.By.CLASS_NAME, value=class_name
             )
-            ic(elements)
             return [
-                element.find_element(by=self.By.TAG_NAME, value="a").get_attribute(
-                    "href"
-                )
+                element.find_element(by=self.By.TAG_NAME, value="a")
+                .get_attribute("href")
+                .split("/")[-1]
                 for element in elements
             ]
         except NoSuchElementException:
-            self.logger.info("Элементы поиска не найдены")
+            self.logger.error("Элементы поиска не найдены")
 
-    def _click_link_all_artists(self):
+    def _click_link_all_artists(self) -> int:
         x_path = "/html/body/div[1]/div[16]/div[2]/div/div/div[1]/nav/a[2]"
         element = self.driver.find_element(by=self.By.XPATH, value=x_path)
+        count_artists = int(element.text.split(" ")[0])
         element.click()
         self.wait()
-        print("click")
+        return count_artists

@@ -1,5 +1,3 @@
-from icecream import ic
-
 from parser.frames.basic import BasicArtistFrame
 from parser.frames.search import SearchFrame
 from parser.frames.info import ArtistInfoFrame
@@ -17,22 +15,31 @@ class YandexMusicParser(SearchFrame, BasicArtistFrame, ArtistInfoFrame):
 
     def search_params(self, search_data: dict) -> list[ArtistDict]:
         data = []
-
-        for page in range(2):
-            try:
-                artists = self.search_by_params(
-                    search_data["genre"], "artist", page=page
-                )
-            except Exception as e:
-                self.logger.error(f"Ошибка при парсинге страницы {page}")
-                break
-            ic(artists)
-            for artist_id in artists:
+        # открываем результат поиска по жанру
+        self.move_to_page_by_params(search_data["genre"], "artist", page=0)
+        # кликаем все исполнители
+        count_artists = self._click_link_all_artists()
+        # обновляем страничку, что бы был доступ ко всем исполнителям на страничке обычно их 48
+        self.driver.refresh()
+        page = 0
+        while count_artists > 0:
+            for artist_id in self._get_artists_articles():
                 artist_data = self.parse_artist_info(artist_id)
-                if (int(artist_data["listeners"].replace(" ", "")) >= search_data["listeners_from"]) and (
-                    int(artist_data["listeners"].replace(" ", "")) <= search_data["listeners_to"]
+                self.logger.info(
+                    f"осталось просмотреть {count_artists}, текущий артист: {artist_data['name']}"
+                )
+
+                if (
+                    int(artist_data["listeners"].replace(" ", "") or 0)
+                    >= search_data["listeners_from"]
                 ):
                     artist_data.update(self.parse_basic_artist_frame(artist_id))
                     data.append(artist_data)
-                    self.logger.info(f"Artist: {artist_data}")
+                    self.logger.info(f"добавлен артист: {artist_data}")
+
+                count_artists -= 1
+
+            self.move_to_page_by_params(search_data["genre"], "artist", page=page)
+
+        page += 1
         return data

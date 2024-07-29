@@ -14,12 +14,6 @@ def input_search_data() -> dict:
         assert (
             search_data["listeners_from"] >= 0
         ), "Количество прослушиваний не может быть меньше 0"
-        search_data["listeners_to"] = int(
-            input("Количеству прослушиваний в течении месяца, до (число от 0): ")
-        )
-        assert (
-            search_data["listeners_to"] >= 0
-        ), "Количество прослушиваний не может быть меньше 0"
     except ValueError:
         print("Ошибка ввода. Ожидался ввод целого числа.")
         search_data = {}
