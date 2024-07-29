@@ -15,6 +15,6 @@ class WelcomeFrame(BaseParser):
         try:
             element = self.driver.find_element(by=self.By.XPATH, value=x_path)
             element.click()
-            self.logger.info("Приветственное окно выводилось")
+            self.logger.warning("Приветственное окно выводилось")
         except NoSuchElementException:
-            self.logger.info("Приветственное окно не выводилось")
+            pass
