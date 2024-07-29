@@ -83,7 +83,9 @@ class ArtistInfoFrame(WelcomeFrame):
         return data_type
 
     def add_website_info(self, data: dict):
-        x_path = "/html/body/div[1]/div[16]/div[2]/div/div/div[3]/div/div[3]/div/div[2]/div"
+        x_path = (
+            "/html/body/div[1]/div[16]/div[2]/div/div/div[3]/div/div[3]/div/div[2]/div"
+        )
         try:
             element = self.driver.find_element(by=self.By.XPATH, value=x_path)
             element = element.find_element(self.By.TAG_NAME, "a")
@@ -92,9 +94,7 @@ class ArtistInfoFrame(WelcomeFrame):
                     data_type = self.__check_type_website(data_type, data)
                     data.update({data_type: element.get_attribute("href")})
                 else:
-                    self.logger.warning(
-                        f"Атрибут data-type `{data_type}` не найден"
-                    )
+                    self.logger.warning(f"Атрибут data-type `{data_type}` не найден")
             else:
                 self.logger.warning(f"Тег span для ссылки не найден")
         except NoSuchElementException:
@@ -112,5 +112,4 @@ class ArtistInfoFrame(WelcomeFrame):
             "youtube": "",
             "website_1": "",
             "website_2": "",
-
         }
