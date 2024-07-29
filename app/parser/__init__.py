@@ -31,5 +31,5 @@ class BaseParser:
     def wait(self):
         self._wait.until(
             lambda driver: driver.execute_script("return document.readyState")
-                           == "complete"
+            == "complete"
         )

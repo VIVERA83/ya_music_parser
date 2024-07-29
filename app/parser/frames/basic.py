@@ -24,11 +24,11 @@ class BasicArtistFrame(WelcomeFrame):
                 by=self.By.CLASS_NAME, value=css_selector
             )
             class_name = "album__bottom"
-            element = element.find_element(
-                by=self.By.CLASS_NAME, value=class_name
-            )
+            element = element.find_element(by=self.By.CLASS_NAME, value=class_name)
             results = re.findall(r"[0-9]{2} [a-я]* [0-9]{4}", element.text)
-            return {"last_release": results[0] or "data not found"}
+            if results:
+                return {"last_release": results[0]}
+            return {"last_release": "data not found"}
         except NoSuchElementException:
             self.logger.warning("Данных по последнему релизу нет")
             return {"last_release": "data not found"}
