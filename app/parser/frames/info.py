@@ -29,11 +29,12 @@ class ArtistInfoFrame(WelcomeFrame):
         return {}
 
     def get_data_about_artist(self) -> ArtistDict:
-        data: dict[str, str] = {}
+        data = self.create_data_empty()
         data.update(self._get_artist_name())
 
         css_selector = ".page-artist__info-cell .page-artist__info-cell_wide"
         elements = self.driver.find_elements(self.By.CSS_SELECTOR, value=css_selector)
+        self.add_website_info(data)
 
         keys = ["listeners", "likes"]
         for el in elements:
@@ -59,6 +60,7 @@ class ArtistInfoFrame(WelcomeFrame):
                         )
                 else:
                     self.logger.warning(f"Тег span для ссылки не найден")
+
         return data
 
     def _get_artist_name(self) -> ArtistDict:
@@ -79,3 +81,36 @@ class ArtistInfoFrame(WelcomeFrame):
                 return f"{data_type}_2"
             return f"{data_type}_1"
         return data_type
+
+    def add_website_info(self, data: dict):
+        x_path = "/html/body/div[1]/div[16]/div[2]/div/div/div[3]/div/div[3]/div/div[2]/div"
+        try:
+            element = self.driver.find_element(by=self.By.XPATH, value=x_path)
+            element = element.find_element(self.By.TAG_NAME, "a")
+            if spans := element.find_elements(self.By.TAG_NAME, "span"):
+                if data_type := spans[-1].get_attribute("data-type"):
+                    data_type = self.__check_type_website(data_type, data)
+                    data.update({data_type: element.get_attribute("href")})
+                else:
+                    self.logger.warning(
+                        f"Атрибут data-type `{data_type}` не найден"
+                    )
+            else:
+                self.logger.warning(f"Тег span для ссылки не найден")
+        except NoSuchElementException:
+            return None
+
+    @staticmethod
+    def create_data_empty() -> ArtistDict:
+        return {
+            "name": "",
+            "listeners": "",
+            "likes": "",
+            "last_release": "",
+            "vk": "",
+            "twitter": "",
+            "youtube": "",
+            "website_1": "",
+            "website_2": "",
+
+        }
